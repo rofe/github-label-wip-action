@@ -522,7 +522,7 @@ async function run() {
   core.info(`Current labels: ${labels}`);
   const intersect = rejectLabels.filter((l) => labels.includes(l));
 
-  if (intersect >= 0) {
+  if (intersect.length) {
     core.setFailed(`rejecting PR due to label: '${intersect}'`);
     return;
   }

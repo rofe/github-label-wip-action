@@ -515,11 +515,6 @@ async function run() {
     throw Error('configuration is missing input for: label');
   }
   core.info(`Checking for '${label}'`);
-
-  // Get client and context
-  const client = new github.GitHub(
-    core.getInput('repo-token', {required: true})
-  );
   const { payload }  = github.context;
   // console.log(`The event payload: ${JSON.stringify(payload, undefined, 2)}`);
   const labels = payload.pull_request.labels.map((l) => l.name);

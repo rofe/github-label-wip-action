@@ -6,29 +6,23 @@ This action blocks a PR if contains a specified label.
 
 ### `label`
 
-**Required** The labels to block
-
-### `repo-token`
-
-**Required** A github token to issue the dummy commit.
+**Required** The label to block
 
 ## Example usage
 
+add a file: `.github/workflows/wip.yaml`
 ```yaml
 on:
   pull_request:
-    types: [opened, labeled, unlabeled, synchronize, reopened]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
 
 jobs:
   block_label:
     runs-on: ubuntu-latest
-    name: Check for label
+    name: Check for 'breaking' label
     steps:
-      - name: Trigger
-        id: trigger
-        uses: adobe-rnd/github-label-wip-action@master
+      - uses: adobe-rnd/github-label-wip-action@master
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
           label: breaking
 ```
 

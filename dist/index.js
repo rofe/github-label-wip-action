@@ -514,16 +514,19 @@ async function run() {
   if (!label) {
     throw Error('configuration is missing input for: label');
   }
-  core.info(`Checking for '${label}'`);
+  const rejectLabels = label.split(',').map((l) => l.trim());
+  core.info(`Checking for '${rejectLabels}'`);
   const { payload }  = github.context;
   // console.log(`The event payload: ${JSON.stringify(payload, undefined, 2)}`);
   const labels = payload.pull_request.labels.map((l) => l.name);
   core.info(`Current labels: ${labels}`);
-  if (labels.indexOf(label) >= 0) {
-    core.setFailed(`rejecting PR due to label: '${label}'`);
+  const intersect = rejectLabels.filter((l) => labels.includes(l));
+
+  if (intersect >= 0) {
+    core.setFailed(`rejecting PR due to label: '${intersect}'`);
     return;
   }
-  core.info(`No '${label}' defined. ok.`);
+  core.info(`OK: None of '${rejectLabels}' defined.`);
 }
 
 run().catch((error) => {

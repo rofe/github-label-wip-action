@@ -14,7 +14,7 @@ This action blocks a PR if contains a specified label.
 
 ## Example usage
 
-```
+```yaml
 on:
   pull_request:
     types: [opened, labeled, unlabeled, synchronize, reopened]

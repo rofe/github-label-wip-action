@@ -1,0 +1,12 @@
+name: 'WIP Label'
+description: 'Blocks a PR when a label is present.'
+inputs:
+  label:
+    description: 'label(s) for which to block the PR'
+    required: true
+  repo-token:
+    description: 'github token for accessing github'
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

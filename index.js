@@ -27,7 +27,7 @@ async function run() {
   // console.log(`The event payload: ${JSON.stringify(payload, undefined, 2)}`);
   const labels = payload.pull_request.labels.map((l) => l.name);
   console.log(`Current labels: ${labels}`);
-  if (labels.indexOf('label') >= 0) {
+  if (labels.indexOf(label) >= 0) {
     throw Error(`rejecting PR due to label: '${label}'`);
   }
   console.log(`No '${label}' defined. ok.`);

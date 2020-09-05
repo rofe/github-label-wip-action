@@ -1,7 +1,7 @@
 {
   "name": "github-label-wip-action",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Prevent a PR when a label is present.",
   "main": "index.js",
   "scripts": {

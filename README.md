@@ -18,8 +18,6 @@ This action blocks a PR if contains a specified label.
 on:
   pull_request:
     types: [opened, labeled, unlabeled, synchronize, reopened]
-    branches-ignore:
-      - master
 
 jobs:
   block_label:

@@ -24,8 +24,8 @@ async function run() {
     core.getInput('repo-token', {required: true})
   );
   const { payload }  = github.context;
-  console.log(`The event payload: ${JSON.stringify(payload, undefined, 2)}`);
-
+  // console.log(`The event payload: ${JSON.stringify(payload, undefined, 2)}`);
+  console.log(`The labels: ${JSON.stringify(payload.pull_request.labels, undefined, 2)}`);
 }
 
 run().catch((error) => {

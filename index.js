@@ -18,15 +18,26 @@ async function run() {
     throw Error('configuration is missing input for: label');
   }
   const rejectLabels = label.split(',').map((l) => l.trim());
-  core.info(`Checking for '${rejectLabels}'`);
+  const allowedBase = core.getInput('allowed_base');
+  const allowBaseRefs = allowedBase ? allowedBase.split(',').map((l) => l.trim()) : null;
+  const allowBaseRefsMsg = allowBaseRefs ? ` outside of '${allowBaseRefs}'` : ''
+
+  core.info(`Checking for '${rejectLabels}'${allowBaseRefsMsg}'`);
   const { payload }  = github.context;
-  // console.log(`The event payload: ${JSON.stringify(payload, undefined, 2)}`);
   const labels = payload.pull_request.labels.map((l) => l.name);
   core.info(`Current labels: ${labels}`);
-  const intersect = rejectLabels.filter((l) => labels.includes(l));
+  const labelIntersect = rejectLabels.find((l) => labels.includes(l));
 
-  if (intersect.length) {
-    core.setFailed(`rejecting PR due to label: '${intersect}'`);
+  const baseRefMatch = true; // default is a match
+  if (allowBaseRefs) {
+    const baseRef = payload.pull_request.base.ref;
+    baseRefMatch = allowBaseRefs.some((ref) => {
+      return ref === baseRef || new RegExp(baseRef, 'iu').test(ref);
+    });
+  }
+
+  if (labelIntersect && !baseRefMatch) {
+    core.setFailed(`rejecting PR due to label: '${labelIntersect}'${allowBaseRefsMsg}`);
     return;
   }
   core.info(`OK: None of '${rejectLabels}' defined.`);
@@ -36,4 +47,3 @@ run().catch((error) => {
   console.error(error);
   core.setFailed(error.message);
 });
-

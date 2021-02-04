@@ -4,6 +4,9 @@ inputs:
   label:
     description: 'label(s) for which to block the PR'
     required: true
+  allowed_base:
+    description: 'base ref(s) where the PR will not be locked'
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
